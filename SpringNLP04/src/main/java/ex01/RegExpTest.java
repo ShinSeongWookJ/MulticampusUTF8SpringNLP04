@@ -72,24 +72,58 @@ public class RegExpTest {
 		//res=str.replaceAll("cat", "dog");
 		Pattern p=Pattern.compile("cat");
 		Matcher m=p.matcher(str);
-		boolean result=m.find();
 		StringBuffer sb=new StringBuffer();
-		while(result) {
+		int i=-1;
+		while(m.find()) {
+			System.out.println(m.group());//일치하는 문자열을 반환
+			System.out.println(m.start());//일치하는 문자열의 시작 인덱스번호
+			System.out.println(m.end());//일치하는 문자열의 끝 인덱스번호
+			i=m.end();
 			m.appendReplacement(sb, "dog");
-			result=m.find();
 		}
+		System.out.println(sb.append(str.substring(i)));
+		/*boolean result=m.find();
+		
+		int i=0;
+		while(result) {
+			
+			m.appendReplacement(sb, "dog");
+			
+			result=m.find();
+			
+			//i=m.start();
+		}
+		
+		if(i>0)
+			sb.append(str.substring(i));
 		System.out.println(result);
 		res=sb.toString();
-		System.out.println(res);
+		System.out.println(sb);*/
 	}//-----------------------
+	
+	public void test6() {
+		String str="123456-1234567";
+		//123456-*******
+//		Pattern pttr=Pattern.compile("\\d{6}-\\d{7}");
+		Pattern pttr=Pattern.compile("\\-\\d{7}");
+		Matcher m=pttr.matcher(str);
+		//System.out.println(m.find());
+		StringBuffer sb=new StringBuffer();
+		while(m.find()) {
+			m.appendReplacement(sb, "-*******");
+		}
+		System.out.println(sb);
+	}//------------------------------
 
 	public static void main(String[] args) {
 		RegExpTest app=new RegExpTest();
 		app.test1(app.str);
 		app.test2(app.str);
+		
 		app.test3();
 		app.test4();
 		app.test5();
+		app.test6();
 	}
 
 }
