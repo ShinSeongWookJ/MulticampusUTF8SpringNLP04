@@ -14,7 +14,7 @@
 	<logger name="com.data.nlpapp">
 		<level value="info" />
 	</logger>
-	<logger name="ex02">
+	<logger name="ex03">
 		<level value="info" />
 	</logger>
 	<logger name="common">

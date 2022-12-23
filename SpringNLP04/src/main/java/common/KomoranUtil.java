@@ -1,6 +1,7 @@
 package common;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -86,6 +87,25 @@ public class KomoranUtil {
 		}
 		return arr;
 	}//-----------------------------------
+	
+	//pos태깅 중에서 지정된 품사의 문자열만 추출해서 카운트를 세어 반환하는 메서드
+	public static List<WordCount> getWordByTag(String text, int minCnt,String...tags){
+		KomoranResult res=nlp.analyze(text);
+		List<String> arr=res.getMorphesByTags(tags);
+		if(arr==null) {
+			arr=new ArrayList<>();
+		}
+		
+		Map<String, Integer> wordCount=getWordCount(arr);
+		if(wordCount==null) {
+			wordCount=new HashMap<String,Integer>();
+		}
+		
+		List<WordCount> arr2=getWordCountSortProc(wordCount, minCnt);
+		return arr2;		
+	}
+	
+	
 
 }
 
