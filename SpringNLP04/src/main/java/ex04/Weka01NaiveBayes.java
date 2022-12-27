@@ -64,7 +64,7 @@ public class Weka01NaiveBayes {
 			System.out.println("pred: "+pred);//예측값
 			System.out.println("Test Data : "+i+"---------------");
 			System.out.println("predicted value: "+testData.classAttribute().value(((int)pred)));
-			//분류 결과를 문자열로 반환
+			//분류 결과를 문자열로 반환			
 		}
 		
 		}catch(Exception e) {
@@ -73,8 +73,8 @@ public class Weka01NaiveBayes {
 	}
 
 	public static void main(String[] args) {
-		String file="C:/Weka-3-9/data/iris.arff";
-		String fileTest="C:/Weka-3-9/data/iris_test.arff";
+		String file="C:/Weka-3-9/data/iris.arff";//훈련데이터
+		String fileTest="C:/Weka-3-9/data/iris_test.arff";//테스트 데이터
 		Weka01NaiveBayes app=new Weka01NaiveBayes();
 		app.loadArff(file);
 		app.generateModel();
