@@ -110,6 +110,6 @@ public class Weka02DecisionTree {
 		app.generateModel_Evaluate();
 		app.testPredict("C:\\Weka-3-9\\data\\UniversalBank_realData.arff");
 		
-	}
+	} 
 
 }

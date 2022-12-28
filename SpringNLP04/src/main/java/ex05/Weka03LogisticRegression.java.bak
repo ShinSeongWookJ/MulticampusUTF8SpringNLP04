@@ -30,7 +30,8 @@ public class Weka03LogisticRegression {
 		train=newData.trainCV(10, 0, new Random(1));
 		test=newData.testCV(10, 0);
 		train.setClassIndex(train.numAttributes()-1);
-		test.setClassIndex(test.numAttributes()-1);		
+		test.setClassIndex(test.numAttributes()-1);
+		
 	}
 	
 	public void generateModel_Evaluate() throws Exception{
