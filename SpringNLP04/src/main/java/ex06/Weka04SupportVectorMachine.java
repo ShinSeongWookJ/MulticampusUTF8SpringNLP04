@@ -17,7 +17,7 @@ import weka.core.converters.ConverterUtils.DataSource;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.Standardize;
 
-public class Weka03SupportVectorMachine {
+public class Weka04SupportVectorMachine {
 	
 	String file="C:\\Weka-3-9\\data\\titanic\\titanic_java.arff";
 	String fileTest="C:\\Weka-3-9\\data\\titanic\\titanic_java_test.arff";
@@ -104,7 +104,7 @@ public class Weka03SupportVectorMachine {
 	}//--------------------------------------------
 	
 	public static void main(String[] args) throws Exception {
-		Weka03SupportVectorMachine app=new Weka03SupportVectorMachine();
+		Weka04SupportVectorMachine app=new Weka04SupportVectorMachine();
 		app.loadArff(app.file);
 		app.generateModel_Evalate();
 		app.predict(app.fileTest);
