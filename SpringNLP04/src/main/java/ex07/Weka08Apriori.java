@@ -34,10 +34,11 @@ public class Weka08Apriori {
 		model=new Apriori();
 		model.setLowerBoundMinSupport(0.05);//지지도(Support)=>전체 4천건중 5%이상 거래가 이뤄진 데이터를 대상으로 설정
 		model.setMetricType(new SelectedTag(1, model.TAGS_SELECTION));//향상도(Lift)로 지정
+		//신뢰도(Confidence)가 디폴트값(0), 향상도(Lift)는 1값을 갖는다.
 		model.setMinMetric(1.5);//향상도 최소값을 1.5로 지정
 		//A를 구매했을때 B를 함께 구매할 비율이 1.5배 이상 나타나는 데이터
 		model.setNumRules(10);
-		//신뢰도(Confidence)가 디폴트값(0), 향상도(Lift)는 1값을 갖는다.
+		
 		model.buildAssociations(data);//알고리즘 모델 run => 학습 진행
 		//evalute필요x, 연관규칙을 추출o
 		AssociationRules rules=model.getAssociationRules();
@@ -49,11 +50,11 @@ public class Weka08Apriori {
 		Map<String, Integer> attrNameCounts=countByItemSets(rule_list);
 		//System.out.println(attrNameCounts);
 		
-		//데이터의 속성명과 속성 index 저장
-		List<String> attrNamesIndex=indexOfInstanceList(data);
+		//데이터의 속성명 저장
+		List<String> attrNames=indexOfInstanceList(data);
 		
 		//최다 발생하는 아이템의 index를 반환하는 메서드
-		int topIndex=fetchTopAttribute(attrNamesIndex, attrNameCounts);
+		int topIndex=fetchTopAttribute(attrNames, attrNameCounts);
 	
 		//OneR 분류 알고리즘으로 최다 발생속성과 연관속성의 밀접도 확인
 		buildOneR(topIndex);
@@ -73,7 +74,7 @@ public class Weka08Apriori {
 		String topAttrName="";
 		int topCount=0;
 		int topIndex=0;
-		for(int i=0;i<attrNames.size()-1;i++) {
+		for(int i=0;i<attrNames.size();i++) {
 			String currAttrName=attrNames.get(i);
 			System.out.println(currAttrName);
 			
@@ -96,8 +97,22 @@ public class Weka08Apriori {
 	}//--------------------------
 	
 	private void buildOneR(int topIndex) throws Exception {
-		 
-	}
+		System.out.println("-----buildOneR---------------");
+		data.setClassIndex(topIndex);
+		System.out.println(data.classIndex()+", "+data.classAttribute());
+		Instances train=data.trainCV(10,0,new Random(1));
+		Instances test=data.testCV(10, 0);
+		Evaluation eval=new Evaluation(train);
+		OneR model=new OneR();
+		eval.crossValidateModel(model, train, 10, new Random(1));
+		
+		model.buildClassifier(train);//학습
+		eval.evaluateModel(model, test);
+		System.out.println("분류대상 데이터 건수: "+(int)eval.numInstances()+"개");
+		System.out.println("정분류 건수: "+(int)eval.correct());
+		int percent=(int)(eval.correct()/eval.numInstances()*100);
+		System.out.println("정분류율 : "+percent+"%");		 
+	}//---------------------------------------
 	
 	
 	public void printRule(List<AssociationRule> rule_list) throws Exception{
